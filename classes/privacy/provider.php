@@ -14,16 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
+namespace local_raise\privacy;
+
 /**
- * Plugin strings are defined here.
+ * Privacy API implementation for the RAISE plugin.
  *
  * @package     local_raise
- * @category    string
+ * @category    privacy
  * @copyright   2022 OpenStax
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+class provider implements \core_privacy\local\metadata\null_provider {
 
-defined('MOODLE_INTERNAL') || die();
-
-$string['pluginname'] = 'RAISE';
-$string['privacy:metadata'] = 'RAISE does not store any personal data';
+    /**
+     * Returns stringid of a text explaining that this plugin stores no personal data.
+     *
+     * @return string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}
