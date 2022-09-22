@@ -42,29 +42,28 @@ class local_raise_externallib_testcase extends externallib_advanced_testcase {
         $this->getDataGenerator()->create_course();
         $this->setUser($user);
 
-        $start_len = $DB->count_records('local_raise_user_data_table');
+        $startLength = $DB->count_records('local_raise_user_data_table');
 
         $result = local_raise_external::get_raise_user_data();
         $result = external_api::clean_returnvalue(local_raise_external::get_raise_user_data_returns(), $result);
 
-        $research_id = $DB->get_record(
+        $researchId = $DB->get_record(
             'local_raise_user_data_table',
             array('user_id'=>$USER->id),
             '*',
             IGNORE_MISSING
         );
 
-        $end_len = $DB->count_records('local_raise_user_data_table');
+        $endLength = $DB->count_records('local_raise_user_data_table');
 
-        $this->assertEquals($end_len, $start_len + 1);
-        $this->assertEquals($result['uuid'], $research_id->research_uuid);
+        $this->assertEquals($endLength, $startLength + 1);
+        $this->assertEquals($result['uuid'], $researchId->research_uuid);
 
         $result = local_raise_external::get_raise_user_data();
         $result = external_api::clean_returnvalue(local_raise_external::get_raise_user_data_returns(), $result);
 
-        $final_len = $DB->count_records('local_raise_user_data_table');
+        $finalLength = $DB->count_records('local_raise_user_data_table');
 
-        $this->assertEquals($end_len, $final_len);
+        $this->assertEquals($endLength, $finalLength);
     }
 }
- 

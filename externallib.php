@@ -53,7 +53,7 @@ class local_raise_external extends external_api {
      *
      * @return array userId
      */
-    public static function get_raise_user_data(){
+    public static function get_raise_user_data() {
         $params = self::validate_parameters(
             self::get_raise_user_data_parameters(),
             array()
@@ -65,7 +65,7 @@ class local_raise_external extends external_api {
         );
     }
 
-    
+
 
     /**
      * Returns description of user_id() return values

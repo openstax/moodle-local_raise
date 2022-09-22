@@ -26,22 +26,21 @@ defined('MOODLE_INTERNAL') || die();
 function get_or_create_research_id() {
     global $USER, $DB;
 
-    $research_id = $DB->get_record(
+    $researchId = $DB->get_record(
         'local_raise_user_data_table',
-        array('user_id'=>$USER->id),
+        array('user_id' => $USER->id),
         '*',
         IGNORE_MISSING
     );
 
-    if ($research_id) {
-        $uuid = $research_id->research_uuid;
+    if ($researchId) {
+        $uuid = $researchId->research_uuid;
     } else {
-        // Create a new identifier for this user
         $uuid = \core\uuid::generate();
-        $research_identifier = new stdClass();
-        $research_identifier->user_id = $USER->id;
-        $research_identifier->research_uuid = $uuid;
-        $DB->insert_record('local_raise_user_data_table', $research_identifier);
+        $researchIdentifier = new stdClass();
+        $researchIdentifier->user_id = $USER->id;
+        $researchIdentifier->research_uuid = $uuid;
+        $DB->insert_record('local_raise_user_data_table', $researchIdentifier);
     }
 
     return $uuid;
