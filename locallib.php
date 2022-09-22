@@ -27,7 +27,7 @@ function get_or_create_research_id() {
     global $USER, $DB;
 
     $research_id = $DB->get_record(
-        'user_data_table',
+        'local_raise_user_data_table',
         array('user_id'=>$USER->id),
         '*',
         IGNORE_MISSING
@@ -41,7 +41,7 @@ function get_or_create_research_id() {
         $research_identifier = new stdClass();
         $research_identifier->user_id = $USER->id;
         $research_identifier->research_uuid = $uuid;
-        $DB->insert_record('user_data_table', $research_identifier);
+        $DB->insert_record('local_raise_user_data_table', $research_identifier);
     }
 
     return $uuid;
