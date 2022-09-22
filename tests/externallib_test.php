@@ -28,7 +28,7 @@ require_once($CFG->dirroot . '/local/raise/externallib.php');
  * @copyright   2022 OpenStax
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_raise_externallib_testcase extends externallib_advanced_testcase {
+class externallib_test extends externallib_advanced_testcase {
 
     /**
      * Test test_get_raise_user_data_testcase
@@ -42,28 +42,28 @@ class local_raise_externallib_testcase extends externallib_advanced_testcase {
         $this->getDataGenerator()->create_course();
         $this->setUser($user);
 
-        $startLength = $DB->count_records('local_raise_user_data_table');
+        $startsize = $DB->count_records('local_raise_user_data_table');
 
         $result = local_raise_external::get_raise_user_data();
         $result = external_api::clean_returnvalue(local_raise_external::get_raise_user_data_returns(), $result);
 
-        $researchId = $DB->get_record(
+        $researchid = $DB->get_record(
             'local_raise_user_data_table',
-            array('user_id'=>$USER->id),
+            array('user_id' => $USER->id),
             '*',
             IGNORE_MISSING
         );
 
-        $endLength = $DB->count_records('local_raise_user_data_table');
+        $endsize = $DB->count_records('local_raise_user_data_table');
 
-        $this->assertEquals($endLength, $startLength + 1);
-        $this->assertEquals($result['uuid'], $researchId->research_uuid);
+        $this->assertEquals($endsize, $startsize + 1);
+        $this->assertEquals($result['uuid'], $researchid->research_uuid);
 
         $result = local_raise_external::get_raise_user_data();
         $result = external_api::clean_returnvalue(local_raise_external::get_raise_user_data_returns(), $result);
 
-        $finalLength = $DB->count_records('local_raise_user_data_table');
+        $finalsize = $DB->count_records('local_raise_user_data_table');
 
-        $this->assertEquals($endLength, $finalLength);
+        $this->assertEquals($endsize, $finalsize);
     }
 }

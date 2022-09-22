@@ -21,26 +21,25 @@
  * @copyright  2021 OpenStax
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die();
 
 function get_or_create_research_id() {
     global $USER, $DB;
 
-    $researchId = $DB->get_record(
+    $researchid = $DB->get_record(
         'local_raise_user_data_table',
         array('user_id' => $USER->id),
         '*',
         IGNORE_MISSING
     );
 
-    if ($researchId) {
-        $uuid = $researchId->research_uuid;
+    if ($researchid) {
+        $uuid = $researchid->research_uuid;
     } else {
         $uuid = \core\uuid::generate();
-        $researchIdentifier = new stdClass();
-        $researchIdentifier->user_id = $USER->id;
-        $researchIdentifier->research_uuid = $uuid;
-        $DB->insert_record('local_raise_user_data_table', $researchIdentifier);
+        $researchidentifier = new stdClass();
+        $researchidentifier->user_id = $USER->id;
+        $researchidentifier->research_uuid = $uuid;
+        $DB->insert_record('local_raise_user_data_table', $researchidentifier);
     }
 
     return $uuid;
