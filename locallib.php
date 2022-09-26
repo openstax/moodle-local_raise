@@ -15,31 +15,36 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other metadata.
+ * RAISE utility functions
  *
  * @package    local_raise
  * @copyright  2021 OpenStax
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-function get_or_create_research_id() {
+ /**
+ * Utility function to query / set a user UUID for RAISE
+ *
+ * @return string A new or existing user UUID
+ */
+function get_or_create_user_uuid() {
     global $USER, $DB;
 
-    $researchid = $DB->get_record(
+    $raiseuser = $DB->get_record(
         'local_raise_user',
         array('user_id' => $USER->id),
-        '*',
+        'user_uuid',
         IGNORE_MISSING
     );
 
-    if ($researchid) {
-        $uuid = $researchid->user_uuid;
+    if ($raiseuser) {
+        $uuid = $raiseuser->user_uuid;
     } else {
         $uuid = \core\uuid::generate();
-        $researchidentifier = new stdClass();
-        $researchidentifier->user_id = $USER->id;
-        $researchidentifier->user_uuid = $uuid;
-        $DB->insert_record('local_raise_user', $researchidentifier);
+        $newraiseuser = new stdClass();
+        $newraiseuser->user_id = $USER->id;
+        $newraiseuser->user_uuid = $uuid;
+        $DB->insert_record('local_raise_user', $newraiseuser);
     }
 
     return $uuid;

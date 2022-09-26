@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other metadata.
+ * External functions and service definitions.
  *
- * @package    local_fe_events_direct
+ * @package    local_raise
  * @copyright  2021 OpenStax
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
     'local_raise_get_user' => array(
         'classname'   => 'local_raise_external',
         'methodname'  => 'get_raise_user',
-        'description' => 'Returns the relevant courseID if the request is internal',
+        'description' => 'Returns information for a RAISE user',
         'loginrequired' => true,
         'ajax' => true
     ),

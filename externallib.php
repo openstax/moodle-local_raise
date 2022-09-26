@@ -15,23 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other metadata.
+ * External RAISE APIs
  *
- * @package    local_fe_events_direct
+ * @package    local_raise
  * @copyright  2021 OpenStax
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/externallib.php');
-require_once($CFG->libdir . "/filelib.php");
 require_once("$CFG->dirroot/local/raise/locallib.php");
 
 
 
 /**
- * Front End Events Direct Web Service
+ * RAISE external functions
  *
- * @package    local_raise_direct
+ * @package    local_raise
  * @copyright  2021 OpenStax
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -59,7 +58,7 @@ class local_raise_external extends external_api {
             array()
         );
 
-        $uuid = get_or_create_research_id();
+        $uuid = get_or_create_user_uuid();
         return array(
             "uuid"  => $uuid,
         );
@@ -75,7 +74,7 @@ class local_raise_external extends external_api {
     public static function get_raise_user_returns() {
         return new external_single_structure(
             array(
-                "uuid" => new external_value(PARAM_TEXT, 'User Research ID')
+                "uuid" => new external_value(PARAM_TEXT, 'Unique RAISE user identifier')
             ));
     }
 
