@@ -42,7 +42,7 @@ class local_raise_external extends external_api {
      *
      * @return external_function_parameters
      */
-    public static function get_raise_user_data_parameters() {
+    public static function get_raise_user_parameters() {
         return new external_function_parameters(
             array()
         );
@@ -53,9 +53,9 @@ class local_raise_external extends external_api {
      *
      * @return array userId
      */
-    public static function get_raise_user_data() {
+    public static function get_raise_user() {
         $params = self::validate_parameters(
-            self::get_raise_user_data_parameters(),
+            self::get_raise_user_parameters(),
             array()
         );
 
@@ -72,7 +72,7 @@ class local_raise_external extends external_api {
      *
      * @return external_single_structure
      */
-    public static function get_raise_user_data_returns() {
+    public static function get_raise_user_returns() {
         return new external_single_structure(
             array(
                 "uuid" => new external_value(PARAM_TEXT, 'User Research ID')

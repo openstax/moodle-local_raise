@@ -24,9 +24,9 @@
 defined('MOODLE_INTERNAL') || die();
 
   $functions = array(
-    'local_raise_get_user_data' => array(
+    'local_raise_get_user' => array(
         'classname'   => 'local_raise_external',
-        'methodname'  => 'get_raise_user_data',
+        'methodname'  => 'get_raise_user',
         'description' => 'Returns the relevant courseID if the request is internal',
         'loginrequired' => true,
         'ajax' => true

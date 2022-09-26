@@ -13,6 +13,10 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+namespace local_raise;
+
+use externallib_advanced_testcase;
+use local_raise_external;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,9 +35,9 @@ require_once($CFG->dirroot . '/local/raise/externallib.php');
 class externallib_test extends externallib_advanced_testcase {
 
     /**
-     * Test test_get_raise_user_data_testcase
+     * Test test_get_raise_user_testcase
      */
-    public function test_get_raise_user_data_testcase() {
+    public function test_get_raise_user_testcase() {
         global $USER, $DB;
 
         $this->resetAfterTest(true);
@@ -42,27 +46,27 @@ class externallib_test extends externallib_advanced_testcase {
         $this->getDataGenerator()->create_course();
         $this->setUser($user);
 
-        $startsize = $DB->count_records('local_raise_user_data_table');
+        $startsize = $DB->count_records('local_raise_user');
 
-        $result = local_raise_external::get_raise_user_data();
-        $result = external_api::clean_returnvalue(local_raise_external::get_raise_user_data_returns(), $result);
+        $result = local_raise_external::get_raise_user();
+        $result = \external_api::clean_returnvalue(local_raise_external::get_raise_user_returns(), $result);
 
         $researchid = $DB->get_record(
-            'local_raise_user_data_table',
+            'local_raise_user',
             array('user_id' => $USER->id),
             '*',
             IGNORE_MISSING
         );
 
-        $endsize = $DB->count_records('local_raise_user_data_table');
+        $endsize = $DB->count_records('local_raise_user');
 
         $this->assertEquals($endsize, $startsize + 1);
         $this->assertEquals($result['uuid'], $researchid->research_uuid);
 
-        $result = local_raise_external::get_raise_user_data();
-        $result = external_api::clean_returnvalue(local_raise_external::get_raise_user_data_returns(), $result);
+        $result = local_raise_external::get_raise_user();
+        $result = \external_api::clean_returnvalue(local_raise_external::get_raise_user_returns(), $result);
 
-        $finalsize = $DB->count_records('local_raise_user_data_table');
+        $finalsize = $DB->count_records('local_raise_user');
 
         $this->assertEquals($endsize, $finalsize);
     }

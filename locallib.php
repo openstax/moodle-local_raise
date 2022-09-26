@@ -26,20 +26,20 @@ function get_or_create_research_id() {
     global $USER, $DB;
 
     $researchid = $DB->get_record(
-        'local_raise_user_data_table',
+        'local_raise_user',
         array('user_id' => $USER->id),
         '*',
         IGNORE_MISSING
     );
 
     if ($researchid) {
-        $uuid = $researchid->research_uuid;
+        $uuid = $researchid->user_uuid;
     } else {
         $uuid = \core\uuid::generate();
         $researchidentifier = new stdClass();
         $researchidentifier->user_id = $USER->id;
-        $researchidentifier->research_uuid = $uuid;
-        $DB->insert_record('local_raise_user_data_table', $researchidentifier);
+        $researchidentifier->user_uuid = $uuid;
+        $DB->insert_record('local_raise_user', $researchidentifier);
     }
 
     return $uuid;
