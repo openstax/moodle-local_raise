@@ -51,7 +51,7 @@ class externallib_test extends externallib_advanced_testcase {
         $result = local_raise_external::get_raise_user();
         $result = \external_api::clean_returnvalue(local_raise_external::get_raise_user_returns(), $result);
 
-        $researchid = $DB->get_record(
+        $userdata = $DB->get_record(
             'local_raise_user',
             array('user_id' => $USER->id),
             'user_uuid',
@@ -61,7 +61,7 @@ class externallib_test extends externallib_advanced_testcase {
         $endsize = $DB->count_records('local_raise_user');
 
         $this->assertEquals($endsize, $startsize + 1);
-        $this->assertEquals($result['uuid'], $researchid->research_uuid);
+        $this->assertEquals($result['uuid'], $userdata->user_uuid);
 
         $result = local_raise_external::get_raise_user();
         $result = \external_api::clean_returnvalue(local_raise_external::get_raise_user_returns(), $result);
