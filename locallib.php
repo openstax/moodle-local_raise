@@ -20,13 +20,13 @@
  * @package    local_raise
  * @copyright  2022 OpenStax
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ */
 
 /**
-* Utility function to query / set a user UUID for RAISE
-*
-* @return string A new or existing user UUID
-*/
+ * Utility function to query / set a user UUID for RAISE
+ *
+ * @return string A new or existing user UUID
+ */
 function get_or_create_user_uuid() {
     global $USER, $DB;
 
