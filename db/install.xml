@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/raise/db" VERSION="2021092102" COMMENT="XMLDB file for local_raise plugin"
+<XMLDB PATH="local/raise/db" VERSION="2022092700" COMMENT="XMLDB file for local_raise plugin"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
