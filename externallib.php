@@ -23,7 +23,6 @@
  */
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/externallib.php');
-require_once("$CFG->dirroot/local/raise/locallib.php");
 
 
 /**
@@ -57,12 +56,11 @@ class local_raise_external extends external_api {
             array()
         );
 
-        $uuid = get_or_create_user_uuid();
+        $uuid = \local_raise\user_helper::get_or_create_user_uuid();
         return array(
             "uuid"  => $uuid,
         );
     }
-
 
 
     /**
@@ -76,5 +74,4 @@ class local_raise_external extends external_api {
                 "uuid" => new external_value(PARAM_TEXT, 'Unique RAISE user identifier')
             ));
     }
-
 }

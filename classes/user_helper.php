@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+namespace local_raise;
 
 /**
  * RAISE utility functions
@@ -27,35 +28,38 @@
  *
  * @return string A new or existing user UUID
  */
-function get_or_create_user_uuid() {
-    global $USER, $DB;
+class user_helper {
 
-    $cache = cache::make('local_raise', 'userdata');
+    public static function get_or_create_user_uuid() {
+        global $USER, $DB;
 
-    $data = $cache->get($USER->id);
+        $cache = \cache::make('local_raise', 'userdata');
 
-    if ($data) {
-        return $data['user_uuid'];
+        $data = $cache->get($USER->id);
+
+        if ($data) {
+            return $data['user_uuid'];
+        }
+
+        $raiseuser = $DB->get_record(
+            'local_raise_user',
+            array('user_id' => $USER->id),
+            'user_uuid',
+            IGNORE_MISSING
+        );
+
+        if ($raiseuser) {
+            $cache->set($USER->id, array('user_uuid' => $raiseuser->user_uuid));
+            return $raiseuser->user_uuid;
+        }
+
+        $uuid = \core\uuid::generate();
+        $newraiseuser = new \stdClass();
+        $newraiseuser->user_id = $USER->id;
+        $newraiseuser->user_uuid = $uuid;
+        $DB->insert_record('local_raise_user', $newraiseuser);
+        $cache->set($USER->id, array('user_uuid' => $uuid));
+
+        return $uuid;
     }
-
-    $raiseuser = $DB->get_record(
-        'local_raise_user',
-        array('user_id' => $USER->id),
-        'user_uuid',
-        IGNORE_MISSING
-    );
-
-    if ($raiseuser) {
-        $cache->set($USER->id, array('user_uuid' => $raiseuser->user_uuid));
-        return $raiseuser->user_uuid;
-    }
-
-    $uuid = \core\uuid::generate();
-    $newraiseuser = new stdClass();
-    $newraiseuser->user_id = $USER->id;
-    $newraiseuser->user_uuid = $uuid;
-    $DB->insert_record('local_raise_user', $newraiseuser);
-    $cache->set($USER->id, array('user_uuid' => $uuid));
-
-    return $uuid;
 }
