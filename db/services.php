@@ -18,7 +18,7 @@
  * External functions and service definitions.
  *
  * @package    local_raise
- * @copyright  2021 OpenStax
+ * @copyright  2022 OpenStax
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();

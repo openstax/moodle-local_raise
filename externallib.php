@@ -18,7 +18,7 @@
  * External RAISE APIs
  *
  * @package    local_raise
- * @copyright  2021 OpenStax
+ * @copyright  2022 OpenStax
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
@@ -26,18 +26,17 @@ require_once($CFG->libdir . '/externallib.php');
 require_once("$CFG->dirroot/local/raise/locallib.php");
 
 
-
 /**
  * RAISE external functions
  *
  * @package    local_raise
- * @copyright  2021 OpenStax
+ * @copyright  2022 OpenStax
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class local_raise_external extends external_api {
 
     /**
-     * Returns description of user_id() parameters
+     * Returns description of get_raise_user parameters
      *
      * @return external_function_parameters
      */
@@ -48,9 +47,9 @@ class local_raise_external extends external_api {
     }
 
     /**
-     * Returns the UserId
+     * Describes an endpoint to collect user parameters
      *
-     * @return array userId
+     * @return array user uuid
      */
     public static function get_raise_user() {
         $params = self::validate_parameters(
@@ -67,7 +66,7 @@ class local_raise_external extends external_api {
 
 
     /**
-     * Returns description of user_id() return values
+     * Returns description of get_raise_use return values
      *
      * @return external_single_structure
      */

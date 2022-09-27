@@ -18,17 +18,25 @@
  * RAISE utility functions
  *
  * @package    local_raise
- * @copyright  2021 OpenStax
+ * @copyright  2022 OpenStax
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+*/
 
- /**
- * Utility function to query / set a user UUID for RAISE
- *
- * @return string A new or existing user UUID
- */
+/**
+* Utility function to query / set a user UUID for RAISE
+*
+* @return string A new or existing user UUID
+*/
 function get_or_create_user_uuid() {
     global $USER, $DB;
+
+    $cache = cache::make('local_raise', 'userdata');
+
+    $data = $cache->get($USER->id);
+
+    if ($data) {
+        return $data['user_uuid'];
+    }
 
     $raiseuser = $DB->get_record(
         'local_raise_user',
@@ -38,14 +46,16 @@ function get_or_create_user_uuid() {
     );
 
     if ($raiseuser) {
-        $uuid = $raiseuser->user_uuid;
-    } else {
-        $uuid = \core\uuid::generate();
-        $newraiseuser = new stdClass();
-        $newraiseuser->user_id = $USER->id;
-        $newraiseuser->user_uuid = $uuid;
-        $DB->insert_record('local_raise_user', $newraiseuser);
+        $cache->set($USER->id, array('user_uuid' => $raiseuser->user_uuid));
+        return $raiseuser->user_uuid;
     }
+
+    $uuid = \core\uuid::generate();
+    $newraiseuser = new stdClass();
+    $newraiseuser->user_id = $USER->id;
+    $newraiseuser->user_uuid = $uuid;
+    $DB->insert_record('local_raise_user', $newraiseuser);
+    $cache->set($USER->id, array('user_uuid' => $uuid));
 
     return $uuid;
 }
