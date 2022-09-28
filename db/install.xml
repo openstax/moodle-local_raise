@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/raise/db" VERSION="2022092700" COMMENT="XMLDB file for local_raise plugin"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="local_raise_user" COMMENT="RAISE user data">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="user_uuid" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="user_id" UNIQUE="true" FIELDS="user_id"/>
+        <INDEX NAME="user_uuid" UNIQUE="true" FIELDS="user_uuid"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>
