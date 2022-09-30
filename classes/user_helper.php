@@ -13,23 +13,31 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-namespace local_raise;
 
 /**
- * RAISE utility functions
+ * RAISE user utilities
  *
  * @package    local_raise
  * @copyright  2022 OpenStax
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_raise;
+
 /**
- * Utility function to query / set a user UUID for RAISE
+ * RAISE user utilities
  *
- * @return string A new or existing user UUID
+ * @package    local_raise
+ * @copyright  2022 OpenStax
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class user_helper {
 
+    /**
+     * Utility function to query / set a user UUID for RAISE
+     *
+     * @return string A new or existing user UUID
+     */
     public static function get_or_create_user_uuid() {
         global $USER, $DB;
 
