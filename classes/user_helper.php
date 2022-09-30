@@ -38,8 +38,7 @@ class user_helper {
      *
      * @return string A new or existing user UUID
      */
-    public static function get_or_create_user_uuid()
-    {
+    public static function get_or_create_user_uuid() {
         global $USER, $DB;
 
         $cache = \cache::make('local_raise', 'userdata');
