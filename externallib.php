@@ -23,6 +23,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/externallib.php');
+use Firebase\JWT\JWT;
 
 
 /**
@@ -55,10 +56,18 @@ class local_raise_external extends external_api {
             self::get_raise_user_parameters(),
             array()
         );
-
+        #jwt code
+        
         $uuid = \local_raise\user_helper::get_or_create_user_uuid();
-        return array(
+        $key = 'example_key';
+        $payload = [
             "uuid"  => $uuid,
+        ];
+
+        $jwt = JWT::encode($payload, $key, 'HS256');
+
+        return array(
+            "uuid"  => $jwt,
         );
     }
 
