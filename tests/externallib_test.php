@@ -16,14 +16,14 @@
 namespace local_raise;
 
 use externallib_advanced_testcase;
-use local_raise_external;
+use local_get_raise_user_external;
 
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
-require_once($CFG->dirroot . '/local/raise/externallib.php');
+require_once($CFG->dirroot . '/local/raise/component/external/get_raise_user.php');
 
 /**
  * RAISE Ajax Service tests
@@ -32,7 +32,7 @@ require_once($CFG->dirroot . '/local/raise/externallib.php');
  * @copyright   2022 OpenStax
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class externallib_test extends externallib_advanced_testcase {
+class local_raise_externallib_testcase extends externallib_advanced_testcase {
 
     /**
      * Test test_get_raise_user_testcase
@@ -48,8 +48,8 @@ class externallib_test extends externallib_advanced_testcase {
 
         $startsize = $DB->count_records('local_raise_user');
 
-        $result = local_raise_external::get_raise_user();
-        $result = \external_api::clean_returnvalue(local_raise_external::get_raise_user_returns(), $result);
+        $result = local_get_raise_user_external::get_raise_user();
+        $result = \external_api::clean_returnvalue(local_get_raise_user_external::get_raise_user_returns(), $result);
 
         $userdata = $DB->get_record(
             'local_raise_user',
@@ -63,8 +63,8 @@ class externallib_test extends externallib_advanced_testcase {
         $this->assertEquals($endsize, $startsize + 1);
         $this->assertEquals($result['uuid'], $userdata->user_uuid);
 
-        $result = local_raise_external::get_raise_user();
-        $result = \external_api::clean_returnvalue(local_raise_external::get_raise_user_returns(), $result);
+        $result = local_get_raise_user_external::get_raise_user();
+        $result = \external_api::clean_returnvalue(local_get_raise_user_external::get_raise_user_returns(), $result);
 
         $finalsize = $DB->count_records('local_raise_user');
 
