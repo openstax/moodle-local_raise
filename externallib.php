@@ -23,7 +23,6 @@
  */
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/externallib.php');
-use Firebase\JWT\JWT;
 
 
 /**
@@ -45,7 +44,9 @@ class local_raise_external extends external_api {
             array()
         );
     }
-
+    function has_config() {
+        return true;
+    }
     /**
      * Describes an endpoint to collect user parameters
      *
@@ -56,18 +57,13 @@ class local_raise_external extends external_api {
             self::get_raise_user_parameters(),
             array()
         );
-        #jwt code
         
         $uuid = \local_raise\user_helper::get_or_create_user_uuid();
-        $key = 'example_key';
-        $payload = [
-            "uuid"  => $uuid,
-        ];
-
-        $jwt = JWT::encode($payload, $key, 'HS256');
+        $jwt = \local_raise\user_helper::get_or_create_jwt($uuid);
 
         return array(
-            "uuid"  => $jwt,
+            "uuid"  => $uuid,
+            "jwt"   => $jwt
         );
     }
 
@@ -80,7 +76,9 @@ class local_raise_external extends external_api {
     public static function get_raise_user_returns() {
         return new external_single_structure(
             array(
-                "uuid" => new external_value(PARAM_TEXT, 'Unique RAISE user identifier')
+                "uuid" => new external_value(PARAM_TEXT, 'Unique RAISE user identifier'),
+                "jwt" => new external_value(PARAM_TEXT, 'JSON web tokeb')
+
             ));
     }
 }

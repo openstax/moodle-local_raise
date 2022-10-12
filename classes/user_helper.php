@@ -23,6 +23,9 @@
  */
 
 namespace local_raise;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Firebase\JWT\ExpiredException;
 
 /**
  * RAISE user utilities
@@ -38,6 +41,49 @@ class user_helper {
      *
      * @return string A new or existing user UUID
      */
+    public static function get_or_create_jwt($uuid) {
+        # pass uuid 
+        $cache = \cache::make('local_raise', 'userdata');
+
+        // $key_id = get_config('local_raise','KEY_ID');
+        $key_secret = get_config('local_raise','KEY');
+
+        $data = $cache->get('jwt');
+        if($data){
+            try {
+                $decoded = JWT::decode($data, new Key($key_secret, 'HS256'));
+            } catch (ExpiredException $e) {
+                $decoded = NULL;
+            }
+        }
+
+
+        if ($decoded) {
+            $decoded = JWT::decode($data, new Key($key_secret, 'HS256'));
+            $decoded_array = json_decode(json_encode($decoded), true);
+            $exp = $decoded_array['exp'];
+    
+            if ( time() < $exp - 12 * 60 * 60){
+                return $data;
+            }
+        }
+
+        $payload = [
+            "sub"  => $uuid,
+            "exp"  => time() + 24 * 60 * 60
+        ];
+
+        $jwt = JWT::encode($payload, $key_secret, 'HS256');
+        $decoded = JWT::decode($jwt, new Key($key_secret, 'HS256'));
+        $decoded_array = json_decode(json_encode($decoded), true);
+        $exp = $decoded_array['exp'];
+        $exp = $decoded_array['uuid'];
+
+        $cache->set('jwt', $jwt);
+
+        return $jwt;
+
+    }
     public static function get_or_create_user_uuid() {
         global $USER, $DB;
 
@@ -58,6 +104,8 @@ class user_helper {
 
         if ($raiseuser) {
             $cache->set($USER->id, array('user_uuid' => $raiseuser->user_uuid));
+            $cache->set('uuid', $raiseuser->user_uuid);
+
             return $raiseuser->user_uuid;
         }
 
@@ -66,7 +114,7 @@ class user_helper {
         $newraiseuser->user_id = $USER->id;
         $newraiseuser->user_uuid = $uuid;
         $DB->insert_record('local_raise_user', $newraiseuser);
-        $cache->set($USER->id, array('user_uuid' => $uuid));
+        $cache->set('uuid', $uuid);
 
         return $uuid;
     }
