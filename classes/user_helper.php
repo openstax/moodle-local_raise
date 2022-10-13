@@ -42,28 +42,27 @@ class user_helper {
      * @return string A new or existing user UUID
      */
     public static function get_or_create_jwt($uuid) {
-        # pass uuid 
+
         $cache = \cache::make('local_raise', 'userdata');
 
-        // $key_id = get_config('local_raise','KEY_ID');
-        $key_secret = get_config('local_raise','KEY');
+        $keyid = get_config('local_raise', 'KEY_ID');
+        $keysecret = get_config('local_raise', 'KEY_SECRET');
 
         $data = $cache->get('jwt');
-        if($data){
+        if ($data) {
             try {
-                $decoded = JWT::decode($data, new Key($key_secret, 'HS256'));
+                $decoded = JWT::decode($data, new Key($keysecret, 'HS256'));
             } catch (ExpiredException $e) {
-                $decoded = NULL;
+                $decoded = null;
             }
         }
 
-
         if ($decoded) {
-            $decoded = JWT::decode($data, new Key($key_secret, 'HS256'));
-            $decoded_array = json_decode(json_encode($decoded), true);
-            $exp = $decoded_array['exp'];
-    
-            if ( time() < $exp - 12 * 60 * 60){
+            $decoded = JWT::decode($data, new Key($keysecret, 'HS256'));
+            $decodedarray = json_decode(json_encode($decoded), true);
+            $exp = $decodedarray['exp'];
+
+            if ( time() < $exp - 12 * 60 * 60) {
                 return $data;
             }
         }
@@ -73,11 +72,7 @@ class user_helper {
             "exp"  => time() + 24 * 60 * 60
         ];
 
-        $jwt = JWT::encode($payload, $key_secret, 'HS256');
-        $decoded = JWT::decode($jwt, new Key($key_secret, 'HS256'));
-        $decoded_array = json_decode(json_encode($decoded), true);
-        $exp = $decoded_array['exp'];
-        $exp = $decoded_array['uuid'];
+        $jwt = JWT::encode($payload, $keysecret, 'HS256', $keyid);
 
         $cache->set('jwt', $jwt);
 

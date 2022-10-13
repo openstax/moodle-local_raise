@@ -28,4 +28,4 @@ defined('MOODLE_INTERNAL') || die();
 $string['pluginname'] = 'RAISE';
 $string['privacy:metadata'] = 'RAISE does not store any personal data';
 $string['cachedef_userdata'] = 'RAISE user data';
-$string['jwt_config'] = 'jwt_config';
+$string['jwt_config'] = 'JWT configuration';

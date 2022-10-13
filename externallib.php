@@ -44,7 +44,7 @@ class local_raise_external extends external_api {
             array()
         );
     }
-    function has_config() {
+    public function has_config() {
         return true;
     }
     /**
@@ -57,7 +57,7 @@ class local_raise_external extends external_api {
             self::get_raise_user_parameters(),
             array()
         );
-        
+
         $uuid = \local_raise\user_helper::get_or_create_user_uuid();
         $jwt = \local_raise\user_helper::get_or_create_jwt($uuid);
 

@@ -62,6 +62,7 @@ class externallib_test extends externallib_advanced_testcase {
 
         $this->assertEquals($endsize, $startsize + 1);
         $this->assertEquals($result['uuid'], $userdata->user_uuid);
+        // Check if jwt exists and looks like a jwt.
 
         $result = local_raise_external::get_raise_user();
         $result = \external_api::clean_returnvalue(local_raise_external::get_raise_user_returns(), $result);

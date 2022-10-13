@@ -24,20 +24,24 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
 if ($hassiteconfig) {
-    $ADMIN->add('admintools', new admin_category('jwt_config', new lang_string('local-raise', 'jwt_config')));
-    $settingspage = new admin_settingpage('jwtkeys', new lang_string('jwt_config', 'local-raise'));
+    $ADMIN->add('admintools', new admin_category('jwt_config', get_string('jwt_config', 'local_raise')));
+    $settingspage = new admin_settingpage('jwtkeys', get_string('jwt_config', 'local_raise'));
 
     if ($ADMIN->fulltree) {
         $settingspage->add(new admin_setting_configtext(
-            'local_raise/KEY',
-            new lang_string('KEY', 'local_raise'),
-            new lang_string('Description', 'local_raise'),
+            'local_raise/KEY_ID',
+            'local_raise KEY_ID',
+            'Description',
             ''
         ));
-        
-        // need key ID and key value. 2 text inputs
+        $settingspage->add(new admin_setting_configtext(
+            'local_raise/KEY_SECRET',
+            'local_raise/KEY_SECRET',
+            'Description',
+            ''
+        ));
+
     }
 
     $ADMIN->add('localplugins', $settingspage);
