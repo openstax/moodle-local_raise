@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+namespace local_raise\external;
 
 /**
  * External RAISE APIs - get_raise_user
@@ -22,7 +23,11 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot . '/local/raise/component/external/get_raise_user.php');
+require_once($CFG->libdir . '/externallib.php');
+use external_api;
+use external_function_parameters;
+use external_value;
+use external_single_structure;
 
 
 /**
@@ -32,7 +37,7 @@ require_once($CFG->dirroot . '/local/raise/component/external/get_raise_user.php
  * @copyright  2022 OpenStax
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_get_raise_user_external extends external_api {
+class user extends external_api {
 
     /**
      * Returns description of get_raise_user parameters
