@@ -15,13 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 namespace local_raise\external;
 
-/**
- * External RAISE APIs - get_raise_user
- *
- * @package    local_raise
- * @copyright  2022 OpenStax
- * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/externallib.php');
 use external_api;
@@ -29,9 +22,8 @@ use external_function_parameters;
 use external_value;
 use external_single_structure;
 
-
 /**
- * RAISE external function for exporting user
+ * RAISE Web Service Function - User Access Functions
  *
  * @package    local_raise
  * @copyright  2022 OpenStax
