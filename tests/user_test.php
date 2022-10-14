@@ -13,7 +13,9 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+namespace local_raise;
 use \local_raise\external\user;
+use externallib_advanced_testcase;
 
 defined('MOODLE_INTERNAL') || die();
 
