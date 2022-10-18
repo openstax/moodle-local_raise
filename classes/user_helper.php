@@ -26,6 +26,8 @@ namespace local_raise;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Firebase\JWT\ExpiredException;
+use Firebase\JWT\SignatureInvalidException;
+use UnexpectedValueException;
 
 /**
  * RAISE user utilities
@@ -49,10 +51,12 @@ class user_helper {
         $keysecret = get_config('local_raise', 'KEY_SECRET');
 
         $data = $cache->get('jwt');
+        $decoded = null;
         if ($data) {
             try {
                 $decoded = JWT::decode($data, new Key($keysecret, 'HS256'));
-            } catch (ExpiredException $e) {
+            } catch (UnexpectedValueException $e) {
+                // Expired jwt or Key and secret changed.
                 $decoded = null;
             }
         }

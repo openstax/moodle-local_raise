@@ -32,13 +32,13 @@ if ($hassiteconfig) {
         $settingspage->add(new admin_setting_configtext(
             'local_raise/KEY_ID',
             'local_raise KEY_ID',
-            'Description',
+            'Key ID for jwt header',
             ''
         ));
         $settingspage->add(new admin_setting_configtext(
             'local_raise/KEY_SECRET',
             'local_raise/KEY_SECRET',
-            'Description',
+            'Secret key for jwt',
             ''
         ));
 
