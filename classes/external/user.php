@@ -41,7 +41,13 @@ class user extends external_api {
             array()
         );
     }
+    /**
+     * Enabling Global Configuration
+     *
+     * @return boolean
+     */
     public function has_config() {
+
         return true;
     }
     /**

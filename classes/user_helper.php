@@ -37,9 +37,9 @@ use UnexpectedValueException;
 class user_helper {
 
     /**
-     * Utility function to query / set a user UUID for RAISE
-     *
-     * @return string A new or existing user UUID
+     * Utility function to get or create JWT
+     * @param str $uuid
+     * @return string JWT
      */
     public static function get_or_create_jwt($uuid) {
 
@@ -81,6 +81,11 @@ class user_helper {
         return $jwt;
 
     }
+    /**
+     * Utility function to query / set a user UUID for RAISE
+     *
+     * @return string A new or existing user UUID
+     */
     public static function get_or_create_user_uuid() {
         global $USER, $DB;
 
