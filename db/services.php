@@ -25,7 +25,7 @@ defined('MOODLE_INTERNAL') || die();
 
   $functions = array(
     'local_raise_get_user' => array(
-        'classname'   => 'local_raise_external',
+        'classname'   => 'local_raise\external\user',
         'methodname'  => 'get_raise_user',
         'description' => 'Returns information for a RAISE user',
         'loginrequired' => true,

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 namespace local_raise;
-
+use \local_raise\external\user;
 use externallib_advanced_testcase;
 use local_raise_external;
 use Firebase\JWT\JWT;
@@ -25,7 +25,6 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
-require_once($CFG->dirroot . '/local/raise/externallib.php');
 
 /**
  * RAISE Ajax Service tests
@@ -34,12 +33,12 @@ require_once($CFG->dirroot . '/local/raise/externallib.php');
  * @copyright   2022 OpenStax
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class externallib_test extends externallib_advanced_testcase {
+class user_test extends externallib_advanced_testcase {
 
     /**
      * Test test_get_raise_user_testcase
      */
-    public function test_get_raise_user_testcase() {
+    public function test_get_user_service() {
         global $USER, $DB;
 
         $this->resetAfterTest(true);
@@ -51,8 +50,9 @@ class externallib_test extends externallib_advanced_testcase {
         set_config('KEY_SECRET', '1234', 'local_raise');
         $startsize = $DB->count_records('local_raise_user');
 
-        $result = local_raise_external::get_raise_user();
-        $result = \external_api::clean_returnvalue(local_raise_external::get_raise_user_returns(), $result);
+        $result = user::get_raise_user();
+        $result = \external_api::clean_returnvalue(user::get_raise_user_returns(), $result);
+
         $userdata = $DB->get_record(
             'local_raise_user',
             array('user_id' => $USER->id),
@@ -67,8 +67,8 @@ class externallib_test extends externallib_advanced_testcase {
         // If jwt::decode causes an exception it means the $result['jwt'] is invalid.
         $decoded = JWT::decode($result['jwt'], new Key('1234', 'HS256'));
 
-        $result = local_raise_external::get_raise_user();
-        $result = \external_api::clean_returnvalue(local_raise_external::get_raise_user_returns(), $result);
+        $result = user::get_raise_user();
+        $result = \external_api::clean_returnvalue(user::get_raise_user_returns(), $result);
 
         $finalsize = $DB->count_records('local_raise_user');
 
