@@ -25,8 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 if ($hassiteconfig) {
-    $ADMIN->add('admintools', new admin_category('jwt_config', get_string('jwt_config', 'local_raise')));
-    $settingspage = new admin_settingpage('jwtkeys', get_string('jwt_config', 'local_raise'));
+    $ADMIN->add('localplugins', new admin_category('local_raise', get_string('pluginname', 'local_raise')));
+    $settingspage = new admin_settingpage('local_raise_settings', get_string('pluginname', 'local_raise'));
 
     if ($ADMIN->fulltree) {
         $settingspage->add(new admin_setting_configtext(
