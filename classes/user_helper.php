@@ -45,8 +45,12 @@ class user_helper {
 
         $cache = \cache::make('local_raise', 'userdata');
 
-        $keyid = get_config('local_raise', 'KEY_ID');
-        $keysecret = get_config('local_raise', 'KEY_SECRET');
+        $keyid = get_config('local_raise', 'tokenkeyid');
+        $keysecret = get_config('local_raise', 'tokenkeysecret');
+
+        if (!$keyid || !$keysecret) {
+            return null;
+        }
 
         $data = $cache->get('jwt');
         $decoded = null;
@@ -61,8 +65,9 @@ class user_helper {
 
         if ($decoded) {
             $decoded = JWT::decode($data, new Key($keysecret, 'HS256'));
-            $decodedarray = json_decode(json_encode($decoded), true);
-            $exp = $decodedarray['exp'];
+            $exp = $decoded->exp;
+            // Return cached token if it's valid for more than 12 hours.
+            // Otherwise we'll proactively refresh.
 
             if ( time() < $exp - 12 * 60 * 60) {
                 return $data;
@@ -91,10 +96,10 @@ class user_helper {
 
         $cache = \cache::make('local_raise', 'userdata');
 
-        $data = $cache->get($USER->id);
+        $data = $cache->get('uuid');
 
         if ($data) {
-            return $data['user_uuid'];
+            return $data;
         }
 
         $raiseuser = $DB->get_record(
@@ -105,7 +110,6 @@ class user_helper {
         );
 
         if ($raiseuser) {
-            $cache->set($USER->id, array('user_uuid' => $raiseuser->user_uuid));
             $cache->set('uuid', $raiseuser->user_uuid);
 
             return $raiseuser->user_uuid;

@@ -30,15 +30,15 @@ if ($hassiteconfig) {
 
     if ($ADMIN->fulltree) {
         $settingspage->add(new admin_setting_configtext(
-            'local_raise/KEY_ID',
-            'local_raise KEY_ID',
-            'Key ID for jwt header',
+            'local_raise/tokenkeyid',
+            get_string('tokenkeyid', 'local_raise'),
+            get_string('tokenkeyid_desc', 'local_raise'),
             ''
         ));
         $settingspage->add(new admin_setting_configtext(
-            'local_raise/KEY_SECRET',
-            'local_raise/KEY_SECRET',
-            'Secret key for jwt',
+            'local_raise/tokenkeysecret',
+            get_string('tokenkeysecret', 'local_raise'),
+            get_string('tokenkeysecret_desc', 'local_raise'),
             ''
         ));
 

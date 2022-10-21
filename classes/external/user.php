@@ -41,15 +41,7 @@ class user extends external_api {
             array()
         );
     }
-    /**
-     * Enabling Global Configuration
-     *
-     * @return boolean
-     */
-    public function has_config() {
 
-        return true;
-    }
     /**
      * Describes an endpoint to collect user parameters
      *
@@ -80,7 +72,7 @@ class user extends external_api {
         return new external_single_structure(
             array(
                 "uuid" => new external_value(PARAM_TEXT, 'Unique RAISE user identifier'),
-                "jwt" => new external_value(PARAM_TEXT, 'JSON web tokeb')
+                "jwt" => new external_value(PARAM_TEXT, 'JSON web token')
 
             ));
     }
