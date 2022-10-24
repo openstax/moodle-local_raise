@@ -64,7 +64,6 @@ class user_helper {
         }
 
         if ($decoded) {
-            $decoded = JWT::decode($data, new Key($keysecret, 'HS256'));
             $exp = $decoded->exp;
             // Return cached token if it's valid for more than 12 hours.
             // Otherwise we'll proactively refresh.
