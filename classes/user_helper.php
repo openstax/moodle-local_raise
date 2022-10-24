@@ -23,6 +23,9 @@
  */
 
 namespace local_raise;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use UnexpectedValueException;
 
 /**
  * RAISE user utilities
@@ -34,6 +37,55 @@ namespace local_raise;
 class user_helper {
 
     /**
+     * Utility function to get or create JWT
+     * @param str $uuid
+     * @return string JWT
+     */
+    public static function get_or_create_jwt($uuid) {
+
+        $cache = \cache::make('local_raise', 'userdata');
+
+        $keyid = get_config('local_raise', 'tokenkeyid');
+        $keysecret = get_config('local_raise', 'tokenkeysecret');
+
+        if (!$keyid || !$keysecret) {
+            return null;
+        }
+
+        $data = $cache->get('jwt');
+        $decoded = null;
+        if ($data) {
+            try {
+                $decoded = JWT::decode($data, new Key($keysecret, 'HS256'));
+            } catch (UnexpectedValueException $e) {
+                // Expired jwt or Key and secret changed.
+                $decoded = null;
+            }
+        }
+
+        if ($decoded) {
+            $exp = $decoded->exp;
+            // Return cached token if it's valid for more than 12 hours.
+            // Otherwise we'll proactively refresh.
+
+            if ( time() < $exp - 12 * 60 * 60) {
+                return $data;
+            }
+        }
+
+        $payload = [
+            "sub"  => $uuid,
+            "exp"  => time() + 24 * 60 * 60
+        ];
+
+        $jwt = JWT::encode($payload, $keysecret, 'HS256', $keyid);
+
+        $cache->set('jwt', $jwt);
+
+        return $jwt;
+
+    }
+    /**
      * Utility function to query / set a user UUID for RAISE
      *
      * @return string A new or existing user UUID
@@ -43,10 +95,10 @@ class user_helper {
 
         $cache = \cache::make('local_raise', 'userdata');
 
-        $data = $cache->get($USER->id);
+        $data = $cache->get('uuid');
 
         if ($data) {
-            return $data['user_uuid'];
+            return $data;
         }
 
         $raiseuser = $DB->get_record(
@@ -57,7 +109,8 @@ class user_helper {
         );
 
         if ($raiseuser) {
-            $cache->set($USER->id, array('user_uuid' => $raiseuser->user_uuid));
+            $cache->set('uuid', $raiseuser->user_uuid);
+
             return $raiseuser->user_uuid;
         }
 
@@ -66,7 +119,7 @@ class user_helper {
         $newraiseuser->user_id = $USER->id;
         $newraiseuser->user_uuid = $uuid;
         $DB->insert_record('local_raise_user', $newraiseuser);
-        $cache->set($USER->id, array('user_uuid' => $uuid));
+        $cache->set('uuid', $uuid);
 
         return $uuid;
     }

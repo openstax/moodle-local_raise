@@ -28,3 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 $string['pluginname'] = 'RAISE';
 $string['privacy:metadata'] = 'RAISE does not store any personal data';
 $string['cachedef_userdata'] = 'RAISE user data';
+$string['tokenkeyid'] = "Token key ID";
+$string['tokenkeyid_desc'] = "Key ID used in token header";
+$string['tokenkeysecret'] = "Token key secret";
+$string['tokenkeysecret_desc'] = "Key secret used to sign tokens";

@@ -16,6 +16,8 @@
 namespace local_raise;
 use \local_raise\external\user;
 use externallib_advanced_testcase;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -43,7 +45,8 @@ class user_test extends externallib_advanced_testcase {
         $user = $this->getDataGenerator()->create_user();
         $this->getDataGenerator()->create_course();
         $this->setUser($user);
-
+        set_config('tokenkeyid', '1234', 'local_raise');
+        set_config('tokenkeysecret', '1234', 'local_raise');
         $startsize = $DB->count_records('local_raise_user');
 
         $result = user::get_raise_user();
@@ -57,9 +60,13 @@ class user_test extends externallib_advanced_testcase {
         );
 
         $endsize = $DB->count_records('local_raise_user');
-
         $this->assertEquals($endsize, $startsize + 1);
         $this->assertEquals($result['uuid'], $userdata->user_uuid);
+
+        // If jwt::decode causes an exception it means the $result['jwt'] is invalid or expired.
+        $decoded = JWT::decode($result['jwt'], new Key('1234', 'HS256'));
+        $this->assertEquals($decoded->sub, $result['uuid']);
+        $this->assertNotNull($decoded->exp, "JWT exp is null");
 
         $result = user::get_raise_user();
         $result = \external_api::clean_returnvalue(user::get_raise_user_returns(), $result);
