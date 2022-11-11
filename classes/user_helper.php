@@ -38,7 +38,7 @@ class user_helper {
 
     /**
      * Utility function to get or create JWT
-     * @param str $uuid
+     * @param string $uuid
      * @return string JWT
      */
     public static function get_or_create_jwt($uuid) {
