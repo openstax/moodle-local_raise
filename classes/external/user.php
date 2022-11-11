@@ -38,7 +38,7 @@ class user extends external_api {
      */
     public static function get_raise_user_parameters() {
         return new external_function_parameters(
-            array()
+            []
         );
     }
 
@@ -50,7 +50,7 @@ class user extends external_api {
     public static function get_raise_user() {
         $params = self::validate_parameters(
             self::get_raise_user_parameters(),
-            array()
+            []
         );
 
         $uuid = \local_raise\user_helper::get_or_create_user_uuid();
