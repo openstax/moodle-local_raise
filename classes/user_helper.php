@@ -68,14 +68,14 @@ class user_helper {
             // Return cached token if it's valid for more than 12 hours.
             // Otherwise we'll proactively refresh.
 
-            if ( time() < $exp - 12 * 60 * 60) {
+            if (time() < $exp - 12 * 60 * 60) {
                 return $data;
             }
         }
 
         $payload = [
-            "sub"  => $uuid,
-            "exp"  => time() + 24 * 60 * 60
+            "sub" => $uuid,
+            "exp" => time() + 24 * 60 * 60
         ];
 
         $jwt = JWT::encode($payload, $keysecret, 'HS256', $keyid);

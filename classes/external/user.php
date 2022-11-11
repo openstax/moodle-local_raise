@@ -57,8 +57,8 @@ class user extends external_api {
         $jwt = \local_raise\user_helper::get_or_create_jwt($uuid);
 
         return array(
-            "uuid"  => $uuid,
-            "jwt"   => $jwt
+            "uuid" => $uuid,
+            "jwt" => $jwt
         );
     }
 
@@ -73,7 +73,6 @@ class user extends external_api {
             array(
                 "uuid" => new external_value(PARAM_TEXT, 'Unique RAISE user identifier'),
                 "jwt" => new external_value(PARAM_TEXT, 'JSON web token')
-
             ));
     }
 }
