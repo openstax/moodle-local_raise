@@ -36,6 +36,8 @@ class user_test extends externallib_advanced_testcase {
 
     /**
      * Test test_get_raise_user_testcase
+     *
+     * @covers \local_raise\external\user::get_raise_user
      */
     public function test_get_user_service() {
         global $USER, $DB;
