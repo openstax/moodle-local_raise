@@ -25,4 +25,4 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_raise';
-$plugin->version = 2022102100;
+$plugin->version = 2022111400;
