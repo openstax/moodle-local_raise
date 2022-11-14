@@ -103,7 +103,7 @@ class user_helper {
 
         $raiseuser = $DB->get_record(
             'local_raise_user',
-            array('user_id' => $USER->id),
+            ['user_id' => $USER->id],
             'user_uuid',
             IGNORE_MISSING
         );

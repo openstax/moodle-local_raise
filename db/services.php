@@ -23,12 +23,12 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-  $functions = array(
-    'local_raise_get_user' => array(
+  $functions = [
+    'local_raise_get_user' => [
         'classname'   => 'local_raise\external\user',
         'methodname'  => 'get_raise_user',
         'description' => 'Returns information for a RAISE user',
         'loginrequired' => true,
         'ajax' => true
-    ),
-  );
+    ],
+  ];

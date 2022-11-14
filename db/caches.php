@@ -23,11 +23,11 @@
  */
 defined('MOODLE_INTERNAL') || die;
 
-$definitions = array(
-    'userdata' => array(
+$definitions = [
+    'userdata' => [
         'mode' => cache_store::MODE_SESSION,
         'simplekeys' => true,
         'simpledata' => true,
         'staticacceleration' => true
-    )
-);
+    ]
+];
