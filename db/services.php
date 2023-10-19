@@ -31,4 +31,11 @@ defined('MOODLE_INTERNAL') || die();
         'loginrequired' => true,
         'ajax' => true
     ],
+    'local_raise_get_policy_acceptance_data' => [
+        'classname'   => 'local_raise\external\user',
+        'methodname'  => 'get_policy_acceptance_data',
+        'description' => 'Returns policy acceptance data for all users',
+        'loginrequired' => true,
+        'ajax'        => true,
+    ],
   ];

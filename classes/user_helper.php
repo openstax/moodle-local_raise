@@ -123,4 +123,34 @@ class user_helper {
 
         return $uuid;
     }
-}
+
+    /**
+     * Utility function to get all user data from tool_policy_acceptance table
+     *
+     * @return array Array containing policy acceptance data (id, policyversionid, userid, status, name)
+     */
+    public static function get_policy_acceptance_data() {
+        global $DB,  $USER;
+    
+        $sql = "SELECT pa.id, pa.policyversionid, pa.userid, pa.status, pv.name
+                FROM {tool_policy_acceptance} pa
+                JOIN {tool_policy_versions} pv ON pa.policyversionid = pv.id
+                WHERE pa.userid = :userid";
+    
+        $params = ['userid' => $$USER->id];
+        $policyAcceptanceData = $DB->get_records_sql($sql, $params);
+    
+        $data = [];
+        foreach ($policyAcceptanceData as $record) {
+            $data[] = [
+                'id' => $record->id,
+                'policyversionid' => $record->policyversionid,
+                'userid' => $record->userid,
+                'status' => $record->status,
+                'name' => $record->name,
+            ];
+        }
+    
+        return $data;
+    }
+}    

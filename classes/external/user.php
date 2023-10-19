@@ -43,6 +43,17 @@ class user extends external_api {
     }
 
     /**
+     * Returns description of get_policy_acceptance_data parameters
+     *
+     * @return external_function_parameters
+     */
+    public static function get_policy_acceptance_data_parameters() {
+        return new external_function_parameters(
+            []
+        );
+    }
+
+    /**
      * Describes an endpoint to collect user parameters
      *
      * @return array user uuid
@@ -58,8 +69,24 @@ class user extends external_api {
 
         return [
             "uuid" => $uuid,
-            "jwt" => $jwt
+            "jwt" => $jwt,
         ];
+    }
+
+    /**
+     * Retrieve policy acceptance data for all users
+     *
+     * @return array Policy acceptance data (id, policyversionid, userid, status, name) for all users
+     */
+    public static function get_policy_acceptance_data() {
+        $params = self::validate_parameters(
+            self::get_policy_acceptance_data_parameters(),
+            []
+        );
+
+        $policyAcceptanceData = \local_raise\user_helper::get_policy_acceptance_data();
+
+        return $policyAcceptanceData;
     }
 
 
@@ -76,4 +103,22 @@ class user extends external_api {
             ]
         );
     }
+
+    /**
+     * Returns description of get_policy_acceptance_data return values
+     *
+     * @return external_single_structure
+     */
+    public static function get_policy_acceptance_data_returns() {
+        return new external_single_structure(
+            [
+                "id" => new external_value(PARAM_INT, 'Policy acceptance ID'),
+                "policyversionid" => new external_value(PARAM_INT, 'Policy version ID'),
+                "userid" => new external_value(PARAM_INT, 'User ID'),
+                "status" => new external_value(PARAM_TEXT, 'Policy acceptance status'),
+                "name" => new external_value(PARAM_TEXT, 'Policy name')
+            ]
+        );
+    }
+    
 }
