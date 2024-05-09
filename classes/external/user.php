@@ -108,9 +108,11 @@ class user extends external_api {
         );
 
         $roles = $DB->get_records_sql(
-            'SELECT role.shortname
-             FROM {context} as context INNER JOIN {role_assignments} as role_assignments ON context.id = role_assignments.contextid INNER JOIN {role} as role ON role_assignments.roleid = role.id
-             WHERE context.instanceid = :instanceid AND context.contextlevel = :contextlevel AND role_assignments.userid = :userid',
+            'SELECT role_type.shortname
+             FROM {context} ctx 
+             INNER JOIN {role_assignments} role_asgmts ON ctx.id = role_asgmts.contextid
+             INNER JOIN {role} role_type ON role_asgmts.roleid = role_type.id
+             WHERE ctx.instanceid = :instanceid AND ctx.contextlevel = :contextlevel AND role_asgmts.userid = :userid',
                 [
                     'instanceid' => $params['courseid'],
                     'contextlevel' => CONTEXT_COURSE,
