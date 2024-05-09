@@ -99,8 +99,7 @@ class user extends external_api {
      * @return array of roles associated with the authenticated user
      */
     public static function get_raise_user_roles($courseid) {
-        global $DB;
-        global $USER;
+        global $DB, $USER;
 
         $params = self::validate_parameters(
             self::get_raise_user_roles_parameters(),
