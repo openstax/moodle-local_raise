@@ -21,6 +21,7 @@ use external_api;
 use external_function_parameters;
 use external_value;
 use external_single_structure;
+use external_multiple_structure;
 
 /**
  * RAISE Web Service Function - User Access Functions
@@ -74,6 +75,65 @@ class user extends external_api {
                 "uuid" => new external_value(PARAM_TEXT, 'Unique RAISE user identifier'),
                 "jwt" => new external_value(PARAM_TEXT, 'JSON web token')
             ]
+        );
+    }
+
+
+    /**
+     * Returns description of get_raise_user_roles() parameters
+     *
+     * @return external_function_parameters
+     */
+    public static function get_raise_user_roles_parameters() {
+        return new external_function_parameters(
+            [
+                'courseid' => new external_value(PARAM_INT, 'Course id'),
+            ]
+        );
+    }
+
+    /**
+     * Get list of roles for an authenticated user for a specific course.
+     *
+     * @param int $courseid
+     * @return array of roles associated with the authenticated user
+     */
+    public static function get_raise_user_roles($courseid) {
+        global $DB;
+        global $USER;
+
+        $params = self::validate_parameters(
+            self::get_raise_user_roles_parameters(),
+            ['courseid' => $courseid]
+        );
+
+        $roles = $DB->get_records_sql(
+            'SELECT role.shortname
+             FROM {context} as context INNER JOIN {role_assignments} as role_assignments ON context.id = role_assignments.contextid INNER JOIN {role} as role ON role_assignments.roleid = role.id
+             WHERE context.instanceid = :instanceid AND context.contextlevel = :contextlevel AND role_assignments.userid = :userid',
+                [
+                    'instanceid' => $params['courseid'],
+                    'contextlevel' => CONTEXT_COURSE,
+                    'userid' => $USER->id
+                ]);
+
+        $result = [];
+        if (!empty($roles)) {
+            foreach ($roles as $role) {
+                $result[] = $role->shortname;
+            };
+        };
+        return $result;
+    }
+
+    /**
+     * Returns description of get_raise_user_roles return values
+     *
+     * @return external_description
+     */
+    public static function get_raise_user_roles_returns() {
+        return new external_multiple_structure(
+            new external_value(PARAM_TEXT, 'Roles associated with user')
         );
     }
 }
