@@ -102,5 +102,6 @@ class user_test extends externallib_advanced_testcase {
         $result = \external_api::clean_returnvalue(user::get_raise_user_roles_returns(), $result);
 
         $this->assertEquals($result[0], $roletable->shortname);
+        $this->assertEquals(count($result), 1);
     }
 }
