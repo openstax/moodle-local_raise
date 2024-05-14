@@ -77,4 +77,31 @@ class user_test extends externallib_advanced_testcase {
 
         $this->assertEquals($endsize, $finalsize);
     }
+
+     /**
+      * Test test_get_raise_user_roles_testcase
+      *
+      * @covers \local_raise\external\user::get_raise_user_roles
+      */
+    public function test_get_raise_user_roles() {
+        global $USER, $DB;
+
+        $this->resetAfterTest(true);
+
+        $user = $this->getDataGenerator()->create_user();
+        $this->setUser($user);
+        $course = $this->getDataGenerator()->create_course();
+        $roleid = $this->getDataGenerator()->create_role(['shortname' => 'roleshortname']);
+        $userrole = $DB->get_record('role', ['shortname' => 'roleshortname']);
+        $this->getDataGenerator()->enrol_user($user->id, $course->id, $userrole->id, 'manual');
+        $context = \context_course::instance($course->id, MUST_EXIST);
+
+        $roletable = $DB->get_record('role', ['id' => $roleid], 'shortname', MUST_EXIST);
+
+        $result = user::get_raise_user_roles($course->id);
+        $result = \external_api::clean_returnvalue(user::get_raise_user_roles_returns(), $result);
+
+        $this->assertEquals($result[0], $roletable->shortname);
+        $this->assertEquals(count($result), 1);
+    }
 }
