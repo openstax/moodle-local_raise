@@ -31,4 +31,11 @@ defined('MOODLE_INTERNAL') || die();
         'loginrequired' => true,
         'ajax' => true
     ],
+    'local_raise_get_user_roles' => [
+      'classname'   => 'local_raise\external\user',
+      'methodname'  => 'get_raise_user_roles',
+      'description' => 'Returns roles associated with a RAISE user for a specific course',
+      'loginrequired' => true,
+      'ajax' => true
+    ]
   ];
